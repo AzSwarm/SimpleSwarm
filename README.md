@@ -1,12 +1,12 @@
 # SimpleSwarm
 PowerShell Cmdlet to quickly setup a Docker Swarm Cluster in Microsoft Azure.
 
-## How to compile the module.
+## How to compile the module
 In order to compile the SimpleSwarm PowerShell Module follow this steps:
 
 * Install .Net SDK
 * Clone the Github repository.
-* Run the command dotnet build.
+* Run the command.
 
 ```properties
 dotnet build
@@ -19,7 +19,7 @@ Import-Module <ProjectLocation>\bin\Debug\netstandard2.0\SimpleSwarm.dll
 ```
 * Now that you have imported the module the different PowerShell Cmdlet will be available in the terminal.
 
-## Requirements to run the module.
+## Requirements to run the module
 In order to use the PowerShell module you will need to do the following:
 
 * Create a Service Principal with Contributor access.
@@ -45,10 +45,36 @@ In order to use the PowerShell module you will need to do the following:
 
 * Create an environment variable AZURE_AUTH_LOCATION with the location of azureauth.json 
 
-## PowerShell Cmdlet Available.
+## PowerShell Cmdlet Available
 
-| Cmdlet Name               | Description                                                                                                                    |  
-|---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| New-SimpleSwarmCluster    | Create the Azure resources requires for the cluster (vnet, storage account, availability set, Key Vaults, Managed Identities)  |    
-| Add-SimpleSwarmManager    | Add a new Docker Swarm Manager to the cluster                                                                                  |
+| Cmdlet Name               | Description                                           |  
+|---------------------------|-------------------------------------------------------|
+| New-SimpleSwarmCluster    | Create the Azure resources requires for the cluster   |    
+| Add-SimpleSwarmManager    | Add a new Docker Swarm Manager to the cluster         |
 | Add-SimpleSwarmWorker     | Work in progress   |
+
+### New-SimpleSwarmCluster
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |    
+| Location                  | Azure regiont to create the resources (Example: eastus2) |
+
+* Example:
+```powershell
+New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2
+```
+
+### Add-SimpleSwarmManager
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |    
+| Location                  | Azure regiont to create the resources (Example: eastus2) |
+| AdminUsername             | Azure VM user name to connect using ssh                  |    
+| AdminPassword             | Azure VM password to connect using ssh                   |
+
+* Example:
+```powershell
+New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2 -AdminUsername azuser -AdminPassword XXXXXXX
+```
