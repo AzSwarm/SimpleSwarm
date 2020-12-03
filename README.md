@@ -76,5 +76,5 @@ New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2
 
 * Example:
 ```powershell
-New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2 -AdminUsername azuser -AdminPassword XXXXXXX
+Add-SimpleSwarmManager -ResourceGroupName myNewResourceGroup -Location eastus2 -AdminUsername XXX -AdminPassword XXX
 ```
