@@ -1,7 +1,25 @@
 # SimpleSwarm
 PowerShell Cmdlet to quickly setup a Docker Swarm Cluster in Microsoft Azure.
 
-## Requirements.
+## How to compile the module.
+In order to compile the SimpleSwarm PowerShell Module follow this steps:
+
+* Install .Net SDK
+* Clone the Github repository.
+* Run the command dotnet build.
+
+```properties
+dotnet build
+```
+
+* Open PowerShell and execute the command:
+
+```powershell
+Import-Module <ProjectLocation>\bin\Debug\netstandard2.0\SimpleSwarm.dll
+```
+* Now that you have imported the module the different PowerShell Cmdlet will be available in the terminal.
+
+## Requirements to run the module.
 In order to use the PowerShell module you will need to do the following:
 
 * Create a Service Principal with Contributor access.
@@ -26,3 +44,11 @@ In order to use the PowerShell module you will need to do the following:
 ```
 
 * Create an environment variable AZURE_AUTH_LOCATION with the location of azureauth.json 
+
+## PowerShell Cmdlet Available.
+
+| Cmdlet Name               | Description                                                                                                                    |  
+|---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| New-SimpleSwarmCluster    | Create the Azure resources requires for the cluster (vnet, storage account, availability set, Key Vaults, Managed Identities)  |    
+| Add-SimpleSwarmManager    | Add a new Docker Swarm Manager to the cluster                                                                                  |
+| Add-SimpleSwarmWorker     | Work in progress   |
