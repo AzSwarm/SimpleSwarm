@@ -82,11 +82,35 @@ New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2
 ### Add-SimpleSwarmManager
 This Cmdlet will do the following configuration:
 
-* Create an Azure Virtual Machine.
+* Create a new Azure Virtual Machine that will be the Docker Swarm Manager.
 * Add the virtual machine to the Docker Swarm Manager Availability Set.
 * Add the virtual machine information to the storage account table SimpleSwarmSetup.
-* Initialize the Docker Swarm Manager and save the manger/worker token inside the key vault.
+* Initialize the Docker Swarm Manager 
+* Save the Docker Swarm tokens inside the key vault using User-assigned Identity
 
+
+The Cmdlet has the following parameters:
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |    
+| Location                  | Azure regiont to create the resources (Example: eastus2) |
+| AdminUsername             | Azure VM user name to connect using ssh                  |    
+| AdminPassword             | Azure VM password to connect using ssh                   |
+
+* Example:
+```powershell
+Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX -AdminUsername XXX -AdminPassword XXX
+```
+
+### Add-SimpleSwarmWorker
+This Cmdlet will do the following configuration:
+
+* Create a new Azure Virtual Machine that will be Docker Swarm Worker.
+* Add the virtual machine to the Docker Swarm Worker Availability Set.
+* Add the virtual machine information to the storage account table SimpleSwarmSetup.
+* Read Docker Swarm tokens inside the key vault using User-assigned Identity.
+* Initialize the Docker Swarm Worker.
 
 The Cmdlet has the following parameters:
 
