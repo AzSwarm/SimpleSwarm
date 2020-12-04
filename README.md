@@ -47,13 +47,27 @@ In order to use the PowerShell module you will need to do the following:
 
 ## PowerShell Cmdlet Available
 
-| Cmdlet Name               | Description                                           |  
-|---------------------------|-------------------------------------------------------|
-| New-SimpleSwarmCluster    | Create the Azure resources requires for the cluster   |    
-| Add-SimpleSwarmManager    | Add a new Docker Swarm Manager to the cluster         |
-| Add-SimpleSwarmWorker     | Work in progress   |
+The following Cmdlet are available for the SimpleSwarm Module.
+
+| Cmdlet Name               |
+|---------------------------|
+| New-SimpleSwarmCluster    |    
+| Add-SimpleSwarmManager    |
+| Add-SimpleSwarmWorker     |
 
 ### New-SimpleSwarmCluster
+This Cmdlet will create the following resources inside Azure:
+
+* Resource group
+* Swarm Manager User-assigned Manged Identity
+* Swarm Worker User-assigned Manged Identity
+* Key Vault
+* Virtual Network
+* Storage Account
+* Docker Swarm Managers Availability Set 
+* Docker Swarm Workers Availability Set 
+
+The Cmdlet has the following parameters:
 
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
@@ -66,6 +80,15 @@ New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2
 ```
 
 ### Add-SimpleSwarmManager
+This Cmdlet will do the following configuration:
+
+* Create an Azure Virtual Machine.
+* Add the virtual machine to the Docker Swarm Manager Availability Set
+* Add the virtual machine information to the storage account table SimpleSwarmSetup
+* Initialize the Docker Swarm Manager and save the manger/worker token inside the key vault.
+
+
+The Cmdlet has the following parameters:
 
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
