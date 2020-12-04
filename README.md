@@ -43,7 +43,7 @@ In order to use the PowerShell module you will need to do the following:
 }
 ```
 
-* Create an environment variable AZURE_AUTH_LOCATION with the location of azureauth.json 
+* Create an environment variable AZURE_AUTH_LOCATION with the location of azureauth.json. 
 
 ## PowerShell Cmdlet Available
 
@@ -58,14 +58,14 @@ The following Cmdlet are available for the SimpleSwarm Module.
 ### New-SimpleSwarmCluster
 This Cmdlet will create the following resources inside Azure:
 
-* Resource group
-* Swarm Manager User-assigned Manged Identity
-* Swarm Worker User-assigned Manged Identity
-* Key Vault
-* Virtual Network
-* Storage Account
-* Docker Swarm Managers Availability Set 
-* Docker Swarm Workers Availability Set 
+* Resource group.
+* Swarm Manager User-assigned Manged Identity.
+* Swarm Worker User-assigned Manged Identity.
+* Key Vault.
+* Virtual Network.
+* Storage Account.
+* Docker Swarm Managers Availability Set. 
+* Docker Swarm Workers Availability Set.
 
 The Cmdlet has the following parameters:
 
@@ -83,8 +83,8 @@ New-SimpleSwarmCluster -ResourceGroupName myNewResourceGroup -Location eastus2
 This Cmdlet will do the following configuration:
 
 * Create an Azure Virtual Machine.
-* Add the virtual machine to the Docker Swarm Manager Availability Set
-* Add the virtual machine information to the storage account table SimpleSwarmSetup
+* Add the virtual machine to the Docker Swarm Manager Availability Set.
+* Add the virtual machine information to the storage account table SimpleSwarmSetup.
 * Initialize the Docker Swarm Manager and save the manger/worker token inside the key vault.
 
 
@@ -99,5 +99,5 @@ The Cmdlet has the following parameters:
 
 * Example:
 ```powershell
-Add-SimpleSwarmManager -ResourceGroupName myNewResourceGroup -Location eastus2 -AdminUsername XXX -AdminPassword XXX
+Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX -AdminUsername XXX -AdminPassword XXX
 ```

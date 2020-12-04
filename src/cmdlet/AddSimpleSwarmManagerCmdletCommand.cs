@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Azure.Management.Compute.Fluent;
 using System.Text;
+using Microsoft.Azure.Management.Storage.Fluent;
+using Microsoft.Azure.Cosmos.Table;
 
 namespace SimpleSwarm
 {
@@ -74,7 +76,9 @@ namespace SimpleSwarm
             cloudInit = cloudInit.Replace("<keyVaultName>", keyVault.Name);
             cloudInitBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cloudInit));
 
-            IVirtualMachine windowsVM = azure.VirtualMachines.Define("azswarmmanager" + randomSuffix)
+            IAvailabilitySet availabilitySet = azure.AvailabilitySets.GetByResourceGroup(resourceGroupName, "azswarm-manager-avset");
+
+            IVirtualMachine linuxVM = azure.VirtualMachines.Define("azswarmmanager" + randomSuffix)
                     .WithRegion(location)
                     .WithExistingResourceGroup(resourceGroupName)
                     .WithExistingPrimaryNetwork(network)
@@ -87,8 +91,30 @@ namespace SimpleSwarm
                     .WithCustomData(cloudInitBase64)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
-                    .WithNewAvailabilitySet("azswarm-avset" + randomSuffix)
+                    .WithExistingAvailabilitySet(availabilitySet)
                     .Create();
+
+            var storageAccount = new List<IStorageAccount>(azure.StorageAccounts.ListByResourceGroup(resourceGroupName))[0];
+
+            string storageConnectionString = "DefaultEndpointsProtocol=https"
+                + ";AccountName=" + storageAccount.Name
+                + ";AccountKey=" + storageAccount.GetKeys()[0].Value
+                + ";EndpointSuffix=core.windows.net";
+
+            var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            CloudTableClient tableClient = cloudStorageAccount.CreateCloudTableClient(new TableClientConfiguration());
+            CloudTable table = tableClient.GetTableReference("SimpleSwarmSetup");
+
+
+            // Create the InsertOrReplace table operation
+            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "initializing", "Manager");
+            TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(simpleSwarmVM);
+
+            //linuxVM.GetPrimaryNetworkInterface().PrimaryPrivateIP
+
+            // Execute the operation.
+            TableResult result = table.Execute(insertOrMergeOperation);
+            SimpleSwarmVM insertedSimpleSwarmVM = result.Result as SimpleSwarmVM;
 
         }
 

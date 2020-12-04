@@ -7,10 +7,11 @@ using Microsoft.Azure.Management.Network.Fluent;
 using Microsoft.Azure.Management.Storage.Fluent;
 using Microsoft.Azure.Management.KeyVault.Fluent.Models;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.Management.Compute.Fluent;
 
 namespace SimpleSwarm
 {
-    [Cmdlet("New", "SimpleSwarm")]
+    [Cmdlet("New", "SimpleSwarmCluster")]
     public class NewSimpleClusterCmdletCommand : PSCmdlet
     {
         // Parameters
@@ -48,7 +49,7 @@ namespace SimpleSwarm
                 .Authenticate(credentials)
                 .WithDefaultSubscription();
 
-            String randomSuffix = new Random().Next(1, 1000).ToString();
+            String randomSuffix = new Random().Next(1, 10000).ToString();
 
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Resource Group...");
             WriteProgress(progress);
@@ -133,11 +134,28 @@ namespace SimpleSwarm
                 + ";AccountKey=" + storageAccountAccessKeys[0].Value
                 + ";EndpointSuffix=core.windows.net";
 
-            WriteVerbose(storageConnectionString);
             var cloudStorageAccount = CloudStorageAccount.Parse(storageConnectionString);
             CloudTableClient tableClient = cloudStorageAccount.CreateCloudTableClient(new TableClientConfiguration());
             CloudTable table = tableClient.GetTableReference("SimpleSwarmSetup");
             table.CreateIfNotExists();
+
+            progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Manager Availability Set...");
+            WriteProgress(progress);
+            IAvailabilitySet availabilitySetManager = azure.AvailabilitySets.Define("azswarm-manager-avset")
+                .WithRegion(location)
+                .WithExistingResourceGroup(resourceGroup)
+                .WithFaultDomainCount(3)
+                .WithUpdateDomainCount(5)
+                .Create();
+
+            progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Manager Availability Set...");
+            WriteProgress(progress);
+            IAvailabilitySet availabilitySetWorker = azure.AvailabilitySets.Define("azswarm-worker-avset")
+                .WithRegion(location)
+                .WithExistingResourceGroup(resourceGroup)
+                .WithFaultDomainCount(3)
+                .WithUpdateDomainCount(5)
+                .Create();
 
             WriteVerbose("SimpleSwarm Setup Completed");
         }
