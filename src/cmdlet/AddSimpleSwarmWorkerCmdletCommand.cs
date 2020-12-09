@@ -62,7 +62,7 @@ namespace SimpleSwarm
                 .Authenticate(credentials)
                 .WithDefaultSubscription();
 
-            progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Searching availability set...");
+            progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Searching SimpleSwarm Information...");
             WriteProgress(progress);
             IAvailabilitySet availabilitySet = azure.AvailabilitySets.GetByResourceGroup(resourceGroupName, "azswarm-manager-avset");
             var vmIds = availabilitySet.VirtualMachineIds;
@@ -76,6 +76,7 @@ namespace SimpleSwarm
             var network = new List<INetwork>(azure.Networks.ListByResourceGroup(resourceGroupName))[0];
             var keyVault = new List<IVault>(azure.Vaults.ListByResourceGroup(resourceGroupName))[0];
             var identity = azure.Identities.GetByResourceGroup(resourceGroupName, "AzSwarmWorker");
+            IAvailabilitySet availabilitySetWorker = azure.AvailabilitySets.GetByResourceGroup(resourceGroupName, "azswarm-worker-avset");
 
             progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Creating Virtual Machine...");
             WriteProgress(progress);
@@ -103,7 +104,7 @@ namespace SimpleSwarm
                     .WithCustomData(cloudInitBase64)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
-                    .WithExistingAvailabilitySet(availabilitySet)
+                    .WithExistingAvailabilitySet(availabilitySetWorker)
                     .Create();
 
             progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Updating SimpleSwarm status...");
