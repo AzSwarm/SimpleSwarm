@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
-    <PackageReference Include="Microsoft.Azure.Management.Compute.Fluent" Version="1.36.0" />
-    <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.36.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Compute.Fluent" Version="1.36.1" />
+    <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.36.1" />
     <PackageReference Include="Microsoft.Azure.Management.KeyVault" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Azure.Management.ResourceManager.Fluent" Version="1.36.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Network" Version="20.2.1" />
+    <PackageReference Include="Microsoft.Azure.Management.ResourceManager.Fluent" Version="1.36.1" />
     <PackageReference Include="Microsoft.Azure.Management.Storage" Version="17.2.0" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.0">
       <PrivateAssets>All</PrivateAssets>

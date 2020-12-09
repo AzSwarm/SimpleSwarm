@@ -157,7 +157,7 @@ namespace SimpleSwarm
                 .WithUpdateDomainCount(5)
                 .Create();
 
-            WriteVerbose("SimpleSwarm Setup Completed");
+             WriteVerbose("SimpleSwarm Setup Completed");
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called
