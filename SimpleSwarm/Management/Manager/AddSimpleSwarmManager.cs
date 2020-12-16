@@ -12,7 +12,7 @@ using Microsoft.Azure.Cosmos.Table;
 namespace SimpleSwarm
 {
     [Cmdlet("Add", "SimpleSwarmManager")]
-    public class AddSimpleClusterManagerCmdletCommand : PSCmdlet
+    public class AddSimpleClusterManager : PSCmdlet
     {
         // Parameters
         [Parameter(Mandatory = true)]

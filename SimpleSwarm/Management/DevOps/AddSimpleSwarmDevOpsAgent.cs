@@ -9,10 +9,10 @@ using Microsoft.Azure.Management.KeyVault.Fluent.Models;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Management.Compute.Fluent;
 
-namespace SimpleSwarm
+namespace SimpleSwarm.Management.DevOps
 {
-    [Cmdlet("New", "SimpleSwarmCluster")]
-    public class NewSimpleClusterCmdletCommand : PSCmdlet
+    [Cmdlet("Add", "SimpleSwarmDevOpsAgent")]
+    public class SimpleSwarmDevOpsAgent : PSCmdlet
     {
         // Parameters
         [Parameter(Mandatory = true)]
@@ -23,7 +23,7 @@ namespace SimpleSwarm
         }
         private string resourceGroupName;
 
-        [Parameter( Mandatory = true)]
+        [Parameter(Mandatory = true)]
         public string Location
         {
             get { return location; }
@@ -43,7 +43,7 @@ namespace SimpleSwarm
             WriteProgress(progress);
             var credentials = SdkContext.AzureCredentialsFactory.FromFile(Environment.GetEnvironmentVariable("AZURE_AUTH_LOCATION"));
 
-            
+
             var azure = Microsoft.Azure.Management.Fluent.Azure
                 .Configure()
                 .Authenticate(credentials)
@@ -123,13 +123,13 @@ namespace SimpleSwarm
                 .WithGeneralPurposeAccountKindV2()
                 .WithOnlyHttpsTraffic()
                 .WithSku(StorageAccountSkuType.Standard_LRS)
-                .Create ();
+                .Create();
 
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Storage Account Table...");
             WriteProgress(progress);
             var storageAccountAccessKeys = storage.GetKeys();
 
-            string storageConnectionString = "DefaultEndpointsProtocol=https" 
+            string storageConnectionString = "DefaultEndpointsProtocol=https"
                 + ";AccountName=" + storage.Name
                 + ";AccountKey=" + storageAccountAccessKeys[0].Value
                 + ";EndpointSuffix=core.windows.net";
@@ -157,7 +157,7 @@ namespace SimpleSwarm
                 .WithUpdateDomainCount(5)
                 .Create();
 
-             WriteVerbose("SimpleSwarm Setup Completed");
+            WriteVerbose("SimpleSwarm Setup Completed");
         }
 
         // This method will be called once at the end of pipeline execution; if no input is received, this method is not called

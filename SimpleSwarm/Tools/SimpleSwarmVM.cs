@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Azure.Cosmos.Table;
+﻿using Microsoft.Azure.Cosmos.Table;
 
-namespace SimpleSwarm
+namespace SimpleSwarm.Tools
 {
     class SimpleSwarmVM : TableEntity
     {
