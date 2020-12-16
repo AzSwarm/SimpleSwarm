@@ -8,11 +8,12 @@ using Microsoft.Azure.Management.Compute.Fluent;
 using System.Text;
 using Microsoft.Azure.Management.Storage.Fluent;
 using Microsoft.Azure.Cosmos.Table;
+using SimpleSwarm.Tools;
 
-namespace SimpleSwarm
+namespace SimpleSwarm.Management.Worker
 {
     [Cmdlet("Add", "SimpleSwarmWorker")]
-    public class AddSimpleClusterWorkerCmdletCommand : PSCmdlet
+    public class AddSimpleClusterWorker : PSCmdlet
     {
         // Parameters
         [Parameter(Mandatory = true)]
