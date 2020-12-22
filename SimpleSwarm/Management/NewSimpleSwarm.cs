@@ -49,8 +49,6 @@ namespace SimpleSwarm.Management
                 .Authenticate(credentials)
                 .WithDefaultSubscription();
 
-            String randomSuffix = new Random().Next(1, 10000).ToString();
-
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Resource Group...");
             WriteProgress(progress);
             IResourceGroup resourceGroup = azure.ResourceGroups
@@ -77,7 +75,7 @@ namespace SimpleSwarm.Management
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Key Vault...");
             WriteProgress(progress);
             IVault keyVault = azure.Vaults
-                .Define("azswarmkv-" + randomSuffix)
+                .Define(SdkContext.RandomResourceName("azswarmkv-", 20))
                 .WithRegion(location)
                 .WithExistingResourceGroup(resourceGroup)
                 .WithEmptyAccessPolicy().Create();
@@ -104,7 +102,7 @@ namespace SimpleSwarm.Management
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Virtual Network...");
             WriteProgress(progress);
             INetwork network = azure.Networks
-                .Define("AzSwarmNetwork" + randomSuffix)
+                .Define(SdkContext.RandomResourceName("AzSwarmNetwork", 20))
                 .WithRegion(location)
                 .WithExistingResourceGroup(resourceGroup)
                 .WithAddressSpace("10.0.0.0/16")
@@ -115,7 +113,7 @@ namespace SimpleSwarm.Management
             progress = new ProgressRecord(1, "SimpleSwarm Setup", "Creating Storage Account...");
             WriteProgress(progress);
             IStorageAccount storage = azure.StorageAccounts
-                .Define("azswarmst" + randomSuffix)
+                .Define(SdkContext.RandomResourceName("azswarmst", 20))
                 .WithRegion(location)
                 .WithExistingResourceGroup(resourceGroup)
                 .WithAccessFromAllNetworks()
