@@ -125,3 +125,25 @@ The Cmdlet has the following parameters:
 ```powershell
 Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX -AdminUsername XXX -AdminPassword XXX
 ```
+
+### Add-SimpleSwarmDevOpsAgent
+This Cmdlet will do the following configuration:
+
+* Run Azure DevOps Agent inside the Docker Swarm Cluster.
+* [Docker image](https://hub.docker.com/repository/docker/alfespa17/devopsagent).
+* [Dockerfile](https://github.com/AzSwarm/DevOpsAgent)
+
+The Cmdlet has the following parameters:
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |    
+| DevOpsOrganization        | AzureDevOps Organization URL                             |
+| DevOpsPool                | AzureDevOps Pool name                                    |    
+| DevOpsPat                 | AzureDevops Personal Access Token                        |
+| DevOpsReplicas            | Azure DevOps Agent replicas to run                       |
+
+* Example:
+```powershell
+ Add-SimpleSwarmDevOpsAgent -ResourceGroupName XXX -DevOpsOrganization XXX -DevOpsPool XXX -DevOpsPat XXX -DevOpsReplicas XXX
+```
