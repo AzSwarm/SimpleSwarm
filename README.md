@@ -1,5 +1,5 @@
 # SimpleSwarm
-PowerShell Cmdlet to quickly setup a Docker Swarm Cluster in Microsoft Azure.
+PowerShell Cmdlet to quickly setup a Docker Swarm Cluster in Microsoft Azure and use it to run Azure DevOps Agents.
 
 ## How to compile the module
 In order to compile the SimpleSwarm PowerShell Module follow this steps:
