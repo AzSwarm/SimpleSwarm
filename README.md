@@ -49,11 +49,12 @@ In order to use the PowerShell module you will need to do the following:
 
 The following Cmdlet are available for the SimpleSwarm Module.
 
-| Cmdlet Name               |
-|---------------------------|
-| New-SimpleSwarmCluster    |    
-| Add-SimpleSwarmManager    |
-| Add-SimpleSwarmWorker     |
+| Cmdlet Name                |
+|----------------------------|
+| New-SimpleSwarmCluster     |    
+| Add-SimpleSwarmManager     |
+| Add-SimpleSwarmWorker      |
+| Add-SimpleSwarmDevOpsAgent |
 
 ### New-SimpleSwarmCluster
 This Cmdlet will create the following resources inside Azure:
