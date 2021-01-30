@@ -32,21 +32,6 @@ namespace SimpleSwarm.Management.Worker
         }
         private string location;
 
-        [Parameter(Mandatory = true)]
-        public string AdminUsername
-        {
-            get { return adminUsername; }
-            set { adminUsername = value; }
-        }
-        private string adminUsername;
-
-        [Parameter(Mandatory = true)]
-        public string AdminPassword
-        {
-            get { return adminPassword; }
-            set { adminPassword = value; }
-        }
-        private string adminPassword;
         protected override void BeginProcessing()
         {
             WriteVerbose("Begin!");
@@ -99,8 +84,8 @@ namespace SimpleSwarm.Management.Worker
                     .WithPrimaryPrivateIPAddressDynamic()
                     .WithoutPrimaryPublicIPAddress()
                     .WithLatestLinuxImage("Canonical", "UbuntuServer", "18.04-LTS")
-                    .WithRootUsername(adminUsername)
-                    .WithRootPassword(adminPassword)
+                    .WithRootUsername(DefaultUsers.azuser_worker.ToString())
+                    .WithRootPassword(KeyGenerator.GetUniqueKey(12))
                     .WithCustomData(cloudInitBase64)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)

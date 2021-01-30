@@ -96,12 +96,10 @@ The Cmdlet has the following parameters:
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |    
 | Location                  | Azure regiont to create the resources (Example: eastus2) |
-| AdminUsername             | Azure VM user name to connect using ssh                  |    
-| AdminPassword             | Azure VM password to connect using ssh                   |
 
 * Example:
 ```powershell
-Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX -AdminUsername XXX -AdminPassword XXX
+Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX
 ```
 
 ### Add-SimpleSwarmWorker
@@ -119,12 +117,10 @@ The Cmdlet has the following parameters:
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |    
 | Location                  | Azure regiont to create the resources (Example: eastus2) |
-| AdminUsername             | Azure VM user name to connect using ssh                  |    
-| AdminPassword             | Azure VM password to connect using ssh                   |
 
 * Example:
 ```powershell
-Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX -AdminUsername XXX -AdminPassword XXX
+Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX
 ```
 
 ### Add-SimpleSwarmDevOpsAgent
