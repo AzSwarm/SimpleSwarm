@@ -24,14 +24,6 @@ namespace SimpleSwarm.Management.Worker
         }
         private string resourceGroupName;
 
-        [Parameter(Mandatory = true)]
-        public string Location
-        {
-            get { return location; }
-            set { location = value; }
-        }
-        private string location;
-
         protected override void BeginProcessing()
         {
             WriteVerbose("Begin!");
@@ -77,7 +69,7 @@ namespace SimpleSwarm.Management.Worker
             cloudInitBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cloudInit));
 
             IVirtualMachine linuxVM = azure.VirtualMachines.Define(SdkContext.RandomResourceName("azswarworker", 20))
-                    .WithRegion(location)
+                    .WithRegion(network.Region)
                     .WithExistingResourceGroup(resourceGroupName)
                     .WithExistingPrimaryNetwork(network)
                     .WithSubnet("AzSwarmSubnet")
@@ -85,7 +77,7 @@ namespace SimpleSwarm.Management.Worker
                     .WithoutPrimaryPublicIPAddress()
                     .WithLatestLinuxImage("Canonical", "UbuntuServer", "18.04-LTS")
                     .WithRootUsername(DefaultUsers.azuser_worker.ToString())
-                    .WithRootPassword(KeyGenerator.GetUniqueKey(12))
+                    .WithRootPassword(KeyGenerator.GetUniqueKey(20))
                     .WithCustomData(cloudInitBase64)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
@@ -107,7 +99,7 @@ namespace SimpleSwarm.Management.Worker
 
 
             // Create the InsertOrReplace table operation
-            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "initializing", "Worker");
+            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "Worker", linuxVM.PrimaryNetworkInterfaceId, linuxVM.OSDiskId, null);
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(simpleSwarmVM);
 
             // Execute the operation.

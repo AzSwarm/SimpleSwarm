@@ -7,7 +7,7 @@ namespace SimpleSwarm.Tools
     public class KeyGenerator
     {
         internal static readonly char[] chars =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%&*()-_+=,.';?/|".ToCharArray();
 
         public static string GetUniqueKey(int size)
         {

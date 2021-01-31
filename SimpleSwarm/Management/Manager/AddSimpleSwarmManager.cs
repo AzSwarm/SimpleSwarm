@@ -24,14 +24,6 @@ namespace SimpleSwarm.Management.Worker
         }
         private string resourceGroupName;
 
-        [Parameter(Mandatory = true)]
-        public string Location
-        {
-            get { return location; }
-            set { location = value; }
-        }
-        private string location;
-
         protected override void BeginProcessing()
         {
             WriteVerbose("Begin!");
@@ -72,6 +64,7 @@ namespace SimpleSwarm.Management.Worker
             String cloudInit = "";
             String cloudInitBase64 = "";
             INetworkInterface networkInterface = null;
+            IPublicIPAddress publicIpAddress = null;
             if (vmIds.Count == 0)
             {
                 //Will refactor this later. Github Origin https://github.com/AzSwarm/Cloud-Init/blob/main/distribution/ubuntu/18.04/cloud-init-manager.yml
@@ -83,13 +76,18 @@ namespace SimpleSwarm.Management.Worker
                 cloudInit = cloudInit.Replace("<keyVaultName>", keyVault.Name);
                 cloudInitBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cloudInit));
 
+                publicIpAddress = azure.PublicIPAddresses.Define(SdkContext.RandomResourceName("azswarm-ip-", 20))
+                    .WithRegion(network.Region)
+                    .WithExistingResourceGroup(resourceGroupName)
+                    .Create();
+
                 networkInterface = azure.NetworkInterfaces.Define(SdkContext.RandomResourceName("azswarm-nic-", 20))
-                            .WithRegion(location)
+                            .WithRegion(network.Region)
                             .WithNewResourceGroup(resourceGroupName)
                             .WithExistingPrimaryNetwork(network)
                             .WithSubnet("AzSwarmSubnet")
                             .WithPrimaryPrivateIPAddressDynamic()
-                            .WithNewPrimaryPublicIPAddress()
+                            .WithExistingPrimaryPublicIPAddress(publicIpAddress)
                             .Create();
             }
             else
@@ -112,7 +110,7 @@ namespace SimpleSwarm.Management.Worker
                 cloudInitBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cloudInit));
 
                 networkInterface = azure.NetworkInterfaces.Define(SdkContext.RandomResourceName("azswarm-nic-", 20))
-                            .WithRegion(location)
+                            .WithRegion(network.Region)
                             .WithNewResourceGroup(resourceGroupName)
                             .WithExistingPrimaryNetwork(network)
                             .WithSubnet("AzSwarmSubnet")
@@ -124,12 +122,12 @@ namespace SimpleSwarm.Management.Worker
             progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Creating virtual machine...");
             WriteProgress(progress);
             IVirtualMachine linuxVM = azure.VirtualMachines.Define(SdkContext.RandomResourceName("azswarmmanager", 20))
-                    .WithRegion(location)
+                    .WithRegion(network.Region)
                     .WithExistingResourceGroup(resourceGroupName)
                     .WithExistingPrimaryNetworkInterface(networkInterface)
                     .WithLatestLinuxImage("Canonical", "UbuntuServer", "18.04-LTS")
                     .WithRootUsername(DefaultUsers.azuser_manager.ToString())
-                    .WithRootPassword(KeyGenerator.GetUniqueKey(12))
+                    .WithRootPassword(KeyGenerator.GetUniqueKey(20))
                     .WithCustomData(cloudInitBase64)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
@@ -151,7 +149,7 @@ namespace SimpleSwarm.Management.Worker
 
 
             // Create the InsertOrReplace table operation
-            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "initializing", "Manager");
+            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "Manager", linuxVM.PrimaryNetworkInterfaceId, linuxVM.OSDiskId, (publicIpAddress != null) ? publicIpAddress.Id : null);
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(simpleSwarmVM);
 
             // Execute the operation.
