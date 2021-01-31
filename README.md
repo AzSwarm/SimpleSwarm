@@ -53,7 +53,9 @@ The following Cmdlet are available for the SimpleSwarm Module.
 |----------------------------|
 | New-SimpleSwarmCluster     |    
 | Add-SimpleSwarmManager     |
+| Remove-SimpleSwarmManager  |
 | Add-SimpleSwarmWorker      |
+| Remove-SimpleSwarmWorker   |
 | Add-SimpleSwarmDevOpsAgent |
 
 ### New-SimpleSwarmCluster
@@ -101,6 +103,23 @@ The Cmdlet has the following parameters:
 Add-SimpleSwarmManager -ResourceGroupName XXX
 ```
 
+### Remove-SimpleSwarmManager
+This Cmdlet will do the following configuration:
+
+* Remove one of the Managers from the Docker Swarm Cluster.
+
+The Cmdlet has the following parameters:
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |
+| ManagerName               | Virtual machine name (Optional)                          | 
+
+* Example:
+```powershell
+Remove-SimpleSwarmManager -ResourceGroupName XXX
+```
+
 ### Add-SimpleSwarmWorker
 This Cmdlet will do the following configuration:
 
@@ -119,6 +138,23 @@ The Cmdlet has the following parameters:
 * Example:
 ```powershell
 Add-SimpleSwarmManager -ResourceGroupName XXX
+```
+
+### Remove-SimpleSwarmWorker
+This Cmdlet will do the following configuration:
+
+* Remove one of Workers from the Docker Swarm Cluster.
+
+The Cmdlet has the following parameters:
+
+| Parameter                 | Description                                              |  
+|---------------------------|----------------------------------------------------------|
+| ResourceGroupName         | Azure resource group to create the resources             |
+| Worker Name               | Virtual machine name (Optional)                          | 
+
+* Example:
+```powershell
+Remove-SimpleSwarmWorker -ResourceGroupName XXX
 ```
 
 ### Add-SimpleSwarmDevOpsAgent

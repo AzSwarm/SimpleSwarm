@@ -149,7 +149,7 @@ namespace SimpleSwarm.Management.Worker
 
 
             // Create the InsertOrReplace table operation
-            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "Manager", linuxVM.PrimaryNetworkInterfaceId, linuxVM.OSDiskId, (publicIpAddress != null) ? publicIpAddress.Id : null);
+            SimpleSwarmVM simpleSwarmVM = new SimpleSwarmVM(linuxVM.Name, "Manager", linuxVM.PrimaryNetworkInterfaceId, linuxVM.OSDiskId, (publicIpAddress != null) ? publicIpAddress.Id : null, linuxVM.Id);
             TableOperation insertOrMergeOperation = TableOperation.InsertOrMerge(simpleSwarmVM);
 
             // Execute the operation.

@@ -6,17 +6,19 @@ namespace SimpleSwarm.Tools
     {
         public SimpleSwarmVM() { }
 
-        public SimpleSwarmVM(string vmName, string role, string nic, string disk, string ip)
+        public SimpleSwarmVM(string vmName, string role, string nicId, string diskId, string ipId, string vmId)
         {
             PartitionKey = role;
             RowKey = vmName;
-            this.nic = nic;
-            this.disk = disk;
-            this.ip = ip;
+            this.nicId = nicId;
+            this.diskId = diskId;
+            this.ipId = ipId;
+            this.vmId = vmId;
         }
 
-        public string nic { get; set; }
-        public string disk { get; set; }
-        public string ip { get; set; }
+        public string vmId { get; set; }
+        public string nicId { get; set; }
+        public string diskId { get; set; }
+        public string ipId { get; set; }
     }
 }

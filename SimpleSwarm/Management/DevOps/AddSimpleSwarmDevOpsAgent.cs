@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.Msi.Fluent;
-using Microsoft.Azure.Management.KeyVault.Fluent;
-using Microsoft.Azure.Management.Network.Fluent;
-using Microsoft.Azure.Management.Storage.Fluent;
-using Microsoft.Azure.Management.KeyVault.Fluent.Models;
-using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Management.Compute.Fluent;
-using SimpleSwarm.Tools;
 using System.Collections.Generic;
 using Microsoft.Azure.Management.Compute.Fluent.Models;
 
