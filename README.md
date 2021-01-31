@@ -95,11 +95,10 @@ The Cmdlet has the following parameters:
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |    
-| Location                  | Azure regiont to create the resources (Example: eastus2) |
 
 * Example:
 ```powershell
-Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX
+Add-SimpleSwarmManager -ResourceGroupName XXX
 ```
 
 ### Add-SimpleSwarmWorker
@@ -116,11 +115,10 @@ The Cmdlet has the following parameters:
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |    
-| Location                  | Azure regiont to create the resources (Example: eastus2) |
 
 * Example:
 ```powershell
-Add-SimpleSwarmManager -ResourceGroupName XXX -Location XXX
+Add-SimpleSwarmManager -ResourceGroupName XXX
 ```
 
 ### Add-SimpleSwarmDevOpsAgent
