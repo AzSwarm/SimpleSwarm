@@ -58,6 +58,7 @@ The following Cmdlet are available for the SimpleSwarm Module.
 | Remove-SimpleSwarmWorker   |
 | Add-SimpleSwarmDevOpsAgent |
 
+
 ### New-SimpleSwarmCluster
 This Cmdlet will create the following resources inside Azure:
 
@@ -113,7 +114,6 @@ The Cmdlet has the following parameters:
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |
-| ManagerName               | Virtual machine name (Optional)                          | 
 
 * Example:
 ```powershell

@@ -68,7 +68,8 @@ namespace SimpleSwarm.Management.Worker
             cloudInit = cloudInit.Replace("<swarmManagerIp>", swarmManagerIp);
             cloudInitBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(cloudInit));
 
-            IVirtualMachine linuxVM = azure.VirtualMachines.Define(SdkContext.RandomResourceName("azswarworker", 20))
+            var vmName = SdkContext.RandomResourceName("azswarworker", 20);
+            IVirtualMachine linuxVM = azure.VirtualMachines.Define(vmName)
                     .WithRegion(network.Region)
                     .WithExistingResourceGroup(resourceGroupName)
                     .WithExistingPrimaryNetwork(network)
@@ -79,6 +80,7 @@ namespace SimpleSwarm.Management.Worker
                     .WithRootUsername(DefaultUsers.azuser_worker.ToString())
                     .WithRootPassword(KeyGenerator.GetUniqueKey(20))
                     .WithCustomData(cloudInitBase64)
+                    .WithComputerName(vmName)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
                     .WithExistingAvailabilitySet(availabilitySetWorker)
