@@ -56,7 +56,6 @@ The following Cmdlet are available for the SimpleSwarm Module.
 | Remove-SimpleSwarmManager  |
 | Add-SimpleSwarmWorker      |
 | Remove-SimpleSwarmWorker   |
-| New-SimpleSwarmDevOpsAgent |
 | Add-SimpleSwarmDevOpsAgent |
 
 
