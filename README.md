@@ -115,7 +115,6 @@ The Cmdlet has the following parameters:
 | Parameter                 | Description                                              |  
 |---------------------------|----------------------------------------------------------|
 | ResourceGroupName         | Azure resource group to create the resources             |
-| ManagerName               | Virtual machine name (Optional)                          | 
 
 * Example:
 ```powershell

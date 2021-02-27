@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Microsoft.Azure.Management.Storage.Fluent;
 using Microsoft.Azure.Cosmos.Table;
 using SimpleSwarm.Tools;
+using Microsoft.Azure.Management.Compute.Fluent;
+using Microsoft.Azure.Management.Compute.Fluent.Models;
+
 
 namespace SimpleSwarm.Management.Worker
 {
@@ -78,6 +81,29 @@ namespace SimpleSwarm.Management.Worker
                     deleteWorker = worker;
                }
             }
+
+            //SEARCH MANAGER TO EXECUTE COMMAND
+            progress = new ProgressRecord(1, "SimpleSwarm Manager Information", "Searching SimpleSwarm Information...");
+            WriteProgress(progress);
+            IAvailabilitySet availabilitySet = azure.AvailabilitySets.GetByResourceGroup(resourceGroupName, "azswarm-manager-avset");
+            var vmIds = availabilitySet.VirtualMachineIds;
+            String vmId = "";
+            foreach (var id in vmIds)
+            {
+                vmId = id;
+            }
+            var vm = azure.VirtualMachines.GetById(vmId);
+
+            //DRAIN AND REMOVE NODE FROM CLUSTER
+            vm.RunShellScript(
+                new List<string>() {
+                    "sudo docker node update --availability drain $workerDrain; sudo docker node remove $workerRemove"
+                },
+                new List<RunCommandInputParameter>()
+                {
+                        new RunCommandInputParameter("workerDrain", deleteWorker.RowKey),
+                        new RunCommandInputParameter("workerRemove", deleteWorker.RowKey)
+                });
 
             azure.VirtualMachines.DeleteById(deleteWorker.vmId);
             azure.NetworkInterfaces.DeleteById(deleteWorker.nicId);

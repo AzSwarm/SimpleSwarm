@@ -121,7 +121,8 @@ namespace SimpleSwarm.Management.Worker
 
             progress = new ProgressRecord(1, "SimpleSwarm Manager Setup", "Creating virtual machine...");
             WriteProgress(progress);
-            IVirtualMachine linuxVM = azure.VirtualMachines.Define(SdkContext.RandomResourceName("azswarmmanager", 20))
+            var vmName = SdkContext.RandomResourceName("azswarmmanager", 20);
+            IVirtualMachine linuxVM = azure.VirtualMachines.Define(vmName)
                     .WithRegion(network.Region)
                     .WithExistingResourceGroup(resourceGroupName)
                     .WithExistingPrimaryNetworkInterface(networkInterface)
@@ -129,6 +130,7 @@ namespace SimpleSwarm.Management.Worker
                     .WithRootUsername(DefaultUsers.azuser_manager.ToString())
                     .WithRootPassword(KeyGenerator.GetUniqueKey(20))
                     .WithCustomData(cloudInitBase64)
+                    .WithComputerName(vmName)
                     .WithExistingUserAssignedManagedServiceIdentity(identity)
                     .WithSize(Microsoft.Azure.Management.Compute.Fluent.Models.VirtualMachineSizeTypes.StandardB1s)
                     .WithExistingAvailabilitySet(availabilitySet)
